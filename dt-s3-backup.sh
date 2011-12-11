@@ -438,7 +438,7 @@ echo -e "--------    END DT-S3-BACKUP SCRIPT    --------\n" >> ${LOGFILE}
 
 if [ $EMAIL_TO ]; then
     if [ ! -x "$MAIL" ]; then
-        echo -e "Email coulnd't be sent. mailx not available." >> ${LOGFILE}
+        echo -e "Email couldn't be sent. mailx not available." >> ${LOGFILE}
     else
         EMAIL_SUBJECT=${EMAIL_SUBJECT:="DT-S3 Alert ${LOG_FILE}"}
         cat ${LOGFILE} | ${MAIL} -s """${EMAIL_SUBJECT}""" ${EMAIL_TO}
