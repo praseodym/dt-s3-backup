@@ -108,20 +108,18 @@ VERBOSITY="-v3"
 
 # EMAIL ALERT (*thanks: rmarescu*)
 # Provide an email address to receive the logfile by email. If no email
-# address is provided, no alert will be sent.
-# You can set a custom from email address and a custom subject (both optionally)
-# If no value is provided for the subject, the following value will be
-# used by default: "DT-S3 Alert ${LOG_FILE}"
+# address is provided, no alert will be sent.  You can optionally set a
+# custom subject.  If no value is provided for the subject, the following
+# value will be used by default: "DT-S3 Alert ${LOG_FILE}"
 # MTA used: mailx
 #EMAIL="admin@example.com"
 EMAIL_TO=
-EMAIL_FROM=
 EMAIL_SUBJECT=
 
 # TROUBLESHOOTING: If you are having any problems running this script it is
 # helpful to see the command output that is being generated to determine if the
 # script is causing a problem or if it is an issue with duplicity (or your
-# setup).  Simply  uncomment the ECHO line below and the commands will be
+# setup).  Simply uncomment the ECHO line below and the commands will be
 # printed to the logfile.  This way, you can see if the problem is with the
 # script or with duplicity.
 #ECHO=$(which echo)
@@ -442,9 +440,8 @@ if [ $EMAIL_TO ]; then
     if [ ! -x "$MAIL" ]; then
         echo -e "Email coulnd't be sent. mailx not available." >> ${LOGFILE}
     else
-        EMAIL_FROM=${EMAIL_FROM:+"-r ${EMAIL_FROM}"}
         EMAIL_SUBJECT=${EMAIL_SUBJECT:="DT-S3 Alert ${LOG_FILE}"}
-        cat ${LOGFILE} | ${MAIL} -s """${EMAIL_SUBJECT}""" $EMAIL_FROM ${EMAIL_TO}
+        cat ${LOGFILE} | ${MAIL} -s """${EMAIL_SUBJECT}""" ${EMAIL_TO}
         echo -e "Email alert sent to ${EMAIL_TO} using ${MAIL}" >> ${LOGFILE}
     fi
 fi
