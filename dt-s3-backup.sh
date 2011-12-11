@@ -30,8 +30,11 @@ export AWS_SECRET_ACCESS_KEY="foobar_aws_access_key"
 # and duplicity should prompt you for your password.
 export PASSPHRASE="foobar_gpg_passphrase"
 
-# Specify which GPG key you would like to use (even if you have only one).
-GPG_KEY="foobar_gpg_key"
+# ID of the GPG public key used for data encryption.
+GPG_ENCRYPT_KEY="foobar_gpg_encrypt_key"
+
+# ID of the GPG private key used for data signing.
+GPG_SIGN_KEY="foobar_gpg_sign_key"
 
 # The ROOT of your backup (where you want the backup to start);
 # This can be / or somwhere else -- I use /home/ because all the
@@ -220,8 +223,8 @@ duplicity_cleanup()
 {
   echo "-----------[ Duplicity Cleanup ]-----------" >> ${LOGFILE}
   ${ECHO} ${DUPLICITY} ${CLEAN_UP_TYPE} ${CLEAN_UP_VARIABLE} ${STATIC_OPTIONS} --force \
-        --encrypt-key=${GPG_KEY} \
-        --sign-key=${GPG_KEY} \
+        --encrypt-key=${GPG_ENCRYPT_KEY} \
+        --sign-key=${GPG_SIGN_KEY} \
         ${DEST} >> ${LOGFILE}
   echo >> ${LOGFILE}
 }
@@ -229,8 +232,8 @@ duplicity_cleanup()
 duplicity_backup()
 {
   ${ECHO} ${DUPLICITY} ${OPTION} ${VERBOSITY} ${STATIC_OPTIONS} \
-  --encrypt-key=${GPG_KEY} \
-  --sign-key=${GPG_KEY} \
+  --encrypt-key=${GPG_ENCRYPT_KEY} \
+  --sign-key=${GPG_SIGN_KEY} \
   ${EXCLUDE} \
   ${INCLUDE} \
   ${EXCLUDEROOT} \
@@ -396,8 +399,8 @@ elif [ "$1" = "--list-current-files" ]; then
   check_variables
   OPTION="list-current-files"
   ${DUPLICITY} ${OPTION} ${VERBOSITY} ${STATIC_OPTIONS} \
-  --encrypt-key=${GPG_KEY} \
-  --sign-key=${GPG_KEY} \
+  --encrypt-key=${GPG_ENCRYPT_KEY} \
+  --sign-key=${GPG_SIGN_KEY} \
   ${DEST}
     echo -e "--------    END    --------\n" >> ${LOGFILE}
 
